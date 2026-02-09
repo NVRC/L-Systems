@@ -1,6 +1,6 @@
 import argparse
 
-from l_system.rendering.renderer import LSystemRenderer
+from l_system.rendering.renderer import GlobalSettings, LSystemRenderer
 
 
 def main() -> None:
@@ -10,14 +10,15 @@ def main() -> None:
         "-a",
         dest="animate",
         action="store_true",
-        default=False,
+        default=True,
         help="If provided, animate turtle movement. (default: False)",
     )
 
     args = parser.parse_args()
 
-    renderer = LSystemRenderer()
-    renderer.draw(animate=args.animate)
+    global_settings = GlobalSettings(args.animate)
+    renderer = LSystemRenderer(global_settings)
+    renderer.draw()
 
 
 if __name__ == "__main__":

@@ -1,5 +1,6 @@
 import tkinter as tk
 import turtle
+from dataclasses import dataclass
 from functools import partial
 from pathlib import Path
 from typing import List, Tuple
@@ -53,12 +54,17 @@ EXAMPLES: List[Example] = [
 DEFAULT_L_SYSTEM, DEFAULT_TURTLE_CONFIG = EXAMPLES[0]
 
 
+@dataclass
+class GlobalSettings:
+    animate: bool
+
+
 class LSystemRenderer:
     def __init__(
         self,
+        global_settings: GlobalSettings,
         l_system: Lsystem = DEFAULT_L_SYSTEM,
         turtle_configuration: TurtleConfiguration = DEFAULT_TURTLE_CONFIG,
-        title: str | None = None,
         width: int = 400,
         height: int = 400,
     ):
@@ -68,14 +74,12 @@ class LSystemRenderer:
         Args:
             l_system: An instantiated L-System object.
             turtle_configuration: A configuration object for the turtle rendering.
-            title: Title of the rendering window.
             width: Window width.
             height: Window height.
         """
-        self.lsystem = l_system
-        self.title = title if title is not None else l_system.name()
         self.width = width
         self.height = height
+        self.global_settings = global_settings
 
         # Initialize a root Tk to manage the canvas within this single `LSystemRenderer`
         self._root = tk.Tk()
@@ -100,8 +104,29 @@ class LSystemRenderer:
         file_menu.add_command(label="Exit", command=self._root.destroy)
 
         menubar.add_cascade(label="File", menu=file_menu, underline=0)
+        menubar.add_command(label="Settings", command=self.settings_modal)
 
         self.set_system(l_system, turtle_configuration)
+
+    def settings_modal(self) -> None:
+        """Initialize a pop-up modal to mutate global settings."""
+        modal = tk.Toplevel(self._root)
+        modal.title("Settings")
+
+        # Define a `TurtleConfiguration` callback
+        animate_var = tk.BooleanVar(modal, value=self.global_settings.animate, name="animate")
+        animate_var.set(self.global_settings.animate)
+
+        def set_animate() -> None:
+            self.global_settings.animate = animate_var.get()
+            self.draw()
+
+        animate_checkbox = tk.Checkbutton(
+            modal, text="Animate", command=set_animate, variable=animate_var, onvalue=True, offvalue=False
+        )
+        animate_checkbox.pack()
+
+        modal.grab_set()
 
     def set_system(self, l_system: Lsystem, turtle_config: TurtleConfiguration) -> None:
         self._screen.clear()
@@ -125,7 +150,7 @@ class LSystemRenderer:
         self.lsystem.apply()
         self.draw()
 
-    def draw(self, animate: bool = True, save_to_eps_file: Path | None = None) -> None:
+    def draw(self, save_to_eps_file: Path | None = None) -> None:
         """
         Draw the L-system on screen using the `turtle` Python module.
 
@@ -137,7 +162,7 @@ class LSystemRenderer:
         """
         try:
             self._update_world_coordinates()
-            self._turtle.animate(animate)
+            self._turtle.animate(self.global_settings.animate)
             self._run_all_moves()
             self._turtle.hideturtle()
             self._turtle.update()
