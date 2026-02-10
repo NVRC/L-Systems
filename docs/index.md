@@ -1,15 +1,16 @@
 # L-Systems
 
-A Python implementation of [Aristid Lindenmayer](https://en.wikipedia.org/wiki/Aristid_Lindenmayer) systems (L-Systems) 
-for purely pedagogical reasons. 
+A Python implementation of [Aristid Lindenmayer](https://en.wikipedia.org/wiki/Aristid_Lindenmayer) systems (L-Systems)
+for purely pedagogical reasons.
 
-L-Systems uses Python's [turtle graphics](https://docs.python.org/3/library/turtle.html) 
+L-Systems uses Python's [turtle graphics](https://docs.python.org/3/library/turtle.html)
 for rendering the L-Systems.
 
-| ![](figures/treea.gif)          | ![](figures/treec.gif) |
-| :-------------------------:|:-------------------------: |
-| ![](figures/treed.gif)  |  ![](figures/treef.gif) |
-| ![](figures/example_selection.gif) | |
+| Example | L-Systems |
+| :--: | :--: |
+| ![treea](figures/treea.gif) | ![treec](figures/treec.gif) |
+| ![treed](figures/treed.gif)  |  ![treef](figures/treef.gif) |
+| ![examples](figures/example_selection.gif) | |
 
 ## What is an L-System?
 
@@ -34,25 +35,25 @@ generate self-similar fractals.
 
 On macOS I have to additionally install [python-tk](https://formulae.brew.sh/formula/python-tk@3.12):
 ```shell
-brew install python-tk
+$ brew install python-tk
 ```
 
 ## Installation
 To install `L-Systems` run:
 ```shell
-poetry install
+$ poetry install
 ```
 
 ## Run the Tests
 To execute all the unit-tests run:
 ```shell
-poetry run pytest tests
+$ poetry run pytest tests
 ```
 
 ## Build the Documentation
 To build and view the project's documentation:
 ```shell
- poetry run mkdocs serve
+$ poetry run mkdocs serve
 ```
 
 ## Run the Examples

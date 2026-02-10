@@ -40,5 +40,5 @@ Which yields the following animation:
 More examples can be found in the `src/examples/` directory. 
 Eg 
 ```shell
-poetry run python src/l_system
+$ poetry run python src/l_system
 ```
