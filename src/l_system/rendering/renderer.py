@@ -185,7 +185,11 @@ class LSystemRenderer:
 
     def _update_world_coordinates(self) -> None:
         """Updates the `turtle` world coordinates by first running the `turtle` on the L-System to find min, max
-        coordinates. Then it uses these values to make sure the final L-System is visible in the window."""
+        coordinates. Then it uses these values to make sure the final L-System is visible in the window.
+        """
+
+        # NOTE: This implementation is computationally expensive
+        self._turtle.reset()
         self._turtle.animate(False)
         self._run_all_moves()
 

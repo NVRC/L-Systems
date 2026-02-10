@@ -19,7 +19,7 @@ class DragonCurve(Lsystem):
 
 ```
 
-Then the `` class can be used to render/animate an L-System along with some turtle graphics configuration:
+Then the `LSystemRenderer` class can be used to render/animate an L-System along with some turtle graphics configuration:
 
 ```python
 if __name__ == '__main__':
