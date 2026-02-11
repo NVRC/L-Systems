@@ -118,7 +118,7 @@ def check_var_isset(val: str) -> bool:
     return False
 
 
-class LSystemRenderer:
+class LSystemRenderer(tk.Tk):
     def __init__(
         self,
         global_settings: GlobalSettings,
@@ -137,20 +137,20 @@ class LSystemRenderer:
             width: Window width.
             height: Window height.
         """
+        super().__init__()
         self.width = width
         self.height = height
         self.global_settings = global_settings
 
         # Initialize a root Tk to manage the canvas within this single `LSystemRenderer`
-        self._root = tk.Tk()
-        self._root.option_add("*tearOff", tk.FALSE)
-        self._canvas = turtle.ScrolledCanvas(self._root, width=width, height=height)
+        self.option_add("*tearOff", tk.FALSE)
+        self._canvas = turtle.ScrolledCanvas(self, width=width, height=height)
         self._canvas.pack(side=tk.LEFT)
         self._screen = turtle.TurtleScreen(self._canvas)
 
         # Add a menu to select from existing examples
-        menubar = tk.Menu(self._root)
-        self._root.config(menu=menubar)
+        menubar = tk.Menu(self)
+        self.config(menu=menubar)
         file_menu = tk.Menu(menubar)
 
         examples_menu = tk.Menu(file_menu)
@@ -161,7 +161,7 @@ class LSystemRenderer:
 
         file_menu.add_cascade(label="Select Example", menu=examples_menu)
         file_menu.add_separator()
-        file_menu.add_command(label="Exit", command=self._root.destroy)
+        file_menu.add_command(label="Exit", command=self.destroy)
 
         menubar.add_cascade(label="File", menu=file_menu, underline=0)
         menubar.add_command(label="Settings", command=self.settings_modal)
@@ -175,7 +175,7 @@ class LSystemRenderer:
         #       Get it to work, then polish.
         #       Have `TurtleConfiguration` extend `tk.Variable` to set/get related vars
 
-        modal = tk.Toplevel(self._root, width=DEFAULT_SETTINGS_WIDTH, height=DEFAULT_SETTINGS_HEIGHT)
+        modal = tk.Toplevel(self, width=DEFAULT_SETTINGS_WIDTH, height=DEFAULT_SETTINGS_HEIGHT)
         modal.title("Settings")
 
         # Define a `TurtleConfiguration` callback
@@ -322,8 +322,7 @@ class LSystemRenderer:
             heading=self._turtle_conf.initial_heading_angle,
             fg_color=self._turtle_conf.fg_color,
         )
-        self.title = self.lsystem.name()
-        self._root.title(self.title)
+        self.wm_title(self.lsystem.name())
         self.lsystem.apply()
         self.draw()
 
@@ -356,7 +355,7 @@ class LSystemRenderer:
             total=len(self.lsystem),
             desc=f"Rendering L-System '{self.lsystem.name()}'",
         ):
-            self._root.title(f"{self.title} | {100*(i/len(self.lsystem)):.0f} %")
+            self.wm_title(f"{self.lsystem.name()} | {100*(i/len(self.lsystem)):.0f} %")
             k = self._turtle_conf.turtle_move_mapper.get(l_str, l_str)
             self._turtle.move(k)
 
