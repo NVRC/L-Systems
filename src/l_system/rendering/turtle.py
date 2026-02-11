@@ -81,8 +81,7 @@ class LSystemTurtle(turtle.RawTurtle):
         coordinates making sure the rendered L-System is visible on screen.
 
         Args:
-            window_width: The turtle's window width.
-            window_height: The turtle's window height.
+            screen: The parent container `turtle.TurtleScreen`.
             fg_color: The turtle's drawing color.
             delta: The angle in degrees the turtle uses to rotate.
             forward_step: The amount of steps the turtle takes every time it moves forward.

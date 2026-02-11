@@ -126,7 +126,7 @@ class LSystemRenderer:
         self.set_system(l_system, turtle_configuration)
 
     def settings_modal(self) -> None:
-        """Initialize a pop-up modal to mutate global settings."""
+        """Initialize a pop-up modal to mutate global and turtle settings."""
         modal = tk.Toplevel(self._root, width=DEFAULT_SETTINGS_WIDTH, height=DEFAULT_SETTINGS_HEIGHT)
         modal.title("Settings")
 
@@ -160,7 +160,6 @@ class LSystemRenderer:
         # State closure over Settings modal components
         def _set_turtle_conf() -> None:
             try:
-                print(fg_color_var.get(), type(fg_color_var.get()))
                 fg_color: Tuple[float, float, float] = json.loads(fg_color_var.get())
                 bg_color: Tuple[float, float, float] = json.loads(bg_color_var.get())
                 move_mapper: Dict[str, str] = json.loads(turtle_move_map_var.get())
@@ -224,6 +223,15 @@ class LSystemRenderer:
         modal.grab_set()
 
     def set_system(self, l_system: Lsystem, turtle_config: TurtleConfiguration) -> None:
+        """
+        Update L-System state and rerender turtle with new configuration.
+        Mutates private `self._turtle: LSystemTurtle`.
+
+        Args:
+            l_system: Concrete L-System to render.
+            turtle_config: Render the L-System according to this TurtleConfiguration.
+        """
+        # Clear screen to redraw following assignments
         self._screen.clear()
 
         self.lsystem = l_system
