@@ -4,7 +4,8 @@ import turtle
 from dataclasses import dataclass
 from functools import partial
 from pathlib import Path
-from typing import Dict, List, Tuple
+from tkinter import ttk
+from typing import Dict, Tuple
 
 import tqdm
 from examples import (
@@ -32,27 +33,69 @@ from l_system.rendering.turtle import LSystemTurtle, TurtleConfiguration
 
 Example = Tuple[Lsystem, TurtleConfiguration]
 
-EXAMPLES: List[Example] = [
-    (dragon_curve.DragonCurve(), dragon_curve.DEFAULT_TURTLE_CONFIG),
-    (sierpinski_gask.SierpinskiGask(), sierpinski_gask.DEFAULT_TURTLE_CONFIG),
-    (koch_island.KochIsland(), koch_island.DEFAULT_TURTLE_CONFIG),
-    (hexagonal_gosper_curve.HexagonalGosperCurve(), hexagonal_gosper_curve.DEFAULT_TURTLE_CONFIG),
-    (islands_and_lakes.IslandsAndLakes(), islands_and_lakes.DEFAULT_TURTLE_CONFIG),
-    (bracketed_ol_system_fig1_24a.BracketedOlSystemFig124a(), bracketed_ol_system_fig1_24a.DEFAULT_TURTLE_CONFIG),
-    (bracketed_ol_system_fig1_24b.BracketedOlSystemFig124b(), bracketed_ol_system_fig1_24b.DEFAULT_TURTLE_CONFIG),
-    (bracketed_ol_system_fig1_24c.BracketedOlSystemFig124c(), bracketed_ol_system_fig1_24c.DEFAULT_TURTLE_CONFIG),
-    (bracketed_ol_system_fig1_24d.BracketedOlSystemFig124d(), bracketed_ol_system_fig1_24d.DEFAULT_TURTLE_CONFIG),
-    (bracketed_ol_system_fig1_24f.BracketedOlSystemFig124f(), bracketed_ol_system_fig1_24f.DEFAULT_TURTLE_CONFIG),
-    (koch_curves_fig1_7b.QuadraticSnowFlakeCurve(), koch_curves_fig1_7b.DEFAULT_TURTLE_CONFIG),
-    (koch_curves_fig1_9a.KochCurvesFig19a(), koch_curves_fig1_9a.DEFAULT_TURTLE_CONFIG),
-    (koch_curves_fig1_9b.KochCurvesFig19b(), koch_curves_fig1_9b.DEFAULT_TURTLE_CONFIG),
-    (koch_curves_fig1_9c.KochCurvesFig19c(), koch_curves_fig1_9c.DEFAULT_TURTLE_CONFIG),
-    (koch_curves_fig1_9d.KochCurvesFig19d(), koch_curves_fig1_9d.DEFAULT_TURTLE_CONFIG),
-    (koch_curves_fig1_9e.KochCurvesFig19e(), koch_curves_fig1_9e.DEFAULT_TURTLE_CONFIG),
-    (koch_curves_fig1_9f.KochCurvesFig19f(), koch_curves_fig1_9f.DEFAULT_TURTLE_CONFIG),
-]
+EXAMPLES_MAP: Dict[str, Example] = {
+    dragon_curve.DragonCurve.name(): (dragon_curve.DragonCurve(), dragon_curve.DEFAULT_TURTLE_CONFIG),
+    sierpinski_gask.SierpinskiGask.name(): (sierpinski_gask.SierpinskiGask(), sierpinski_gask.DEFAULT_TURTLE_CONFIG),
+    koch_island.KochIsland.name(): (koch_island.KochIsland(), koch_island.DEFAULT_TURTLE_CONFIG),
+    hexagonal_gosper_curve.HexagonalGosperCurve.name(): (
+        hexagonal_gosper_curve.HexagonalGosperCurve(),
+        hexagonal_gosper_curve.DEFAULT_TURTLE_CONFIG,
+    ),
+    islands_and_lakes.IslandsAndLakes.name(): (
+        islands_and_lakes.IslandsAndLakes(),
+        islands_and_lakes.DEFAULT_TURTLE_CONFIG,
+    ),
+    bracketed_ol_system_fig1_24a.BracketedOlSystemFig124a.name(): (
+        bracketed_ol_system_fig1_24a.BracketedOlSystemFig124a(),
+        bracketed_ol_system_fig1_24a.DEFAULT_TURTLE_CONFIG,
+    ),
+    bracketed_ol_system_fig1_24b.BracketedOlSystemFig124b.name(): (
+        bracketed_ol_system_fig1_24b.BracketedOlSystemFig124b(),
+        bracketed_ol_system_fig1_24b.DEFAULT_TURTLE_CONFIG,
+    ),
+    bracketed_ol_system_fig1_24c.BracketedOlSystemFig124c.name(): (
+        bracketed_ol_system_fig1_24c.BracketedOlSystemFig124c(),
+        bracketed_ol_system_fig1_24c.DEFAULT_TURTLE_CONFIG,
+    ),
+    bracketed_ol_system_fig1_24d.BracketedOlSystemFig124d.name(): (
+        bracketed_ol_system_fig1_24d.BracketedOlSystemFig124d(),
+        bracketed_ol_system_fig1_24d.DEFAULT_TURTLE_CONFIG,
+    ),
+    bracketed_ol_system_fig1_24f.BracketedOlSystemFig124f.name(): (
+        bracketed_ol_system_fig1_24f.BracketedOlSystemFig124f(),
+        bracketed_ol_system_fig1_24f.DEFAULT_TURTLE_CONFIG,
+    ),
+    koch_curves_fig1_7b.QuadraticSnowFlakeCurve.name(): (
+        koch_curves_fig1_7b.QuadraticSnowFlakeCurve(),
+        koch_curves_fig1_7b.DEFAULT_TURTLE_CONFIG,
+    ),
+    koch_curves_fig1_9a.KochCurvesFig19a.name(): (
+        koch_curves_fig1_9a.KochCurvesFig19a(),
+        koch_curves_fig1_9a.DEFAULT_TURTLE_CONFIG,
+    ),
+    koch_curves_fig1_9b.KochCurvesFig19b.name(): (
+        koch_curves_fig1_9b.KochCurvesFig19b(),
+        koch_curves_fig1_9b.DEFAULT_TURTLE_CONFIG,
+    ),
+    koch_curves_fig1_9c.KochCurvesFig19c.name(): (
+        koch_curves_fig1_9c.KochCurvesFig19c(),
+        koch_curves_fig1_9c.DEFAULT_TURTLE_CONFIG,
+    ),
+    koch_curves_fig1_9d.KochCurvesFig19d.name(): (
+        koch_curves_fig1_9d.KochCurvesFig19d(),
+        koch_curves_fig1_9d.DEFAULT_TURTLE_CONFIG,
+    ),
+    koch_curves_fig1_9e.KochCurvesFig19e.name(): (
+        koch_curves_fig1_9e.KochCurvesFig19e(),
+        koch_curves_fig1_9e.DEFAULT_TURTLE_CONFIG,
+    ),
+    koch_curves_fig1_9f.KochCurvesFig19f.name(): (
+        koch_curves_fig1_9f.KochCurvesFig19f(),
+        koch_curves_fig1_9f.DEFAULT_TURTLE_CONFIG,
+    ),
+}
 
-DEFAULT_L_SYSTEM, DEFAULT_TURTLE_CONFIG = EXAMPLES[0]
+DEFAULT_L_SYSTEM, DEFAULT_TURTLE_CONFIG = EXAMPLES_MAP[dragon_curve.DragonCurve.name()]
 
 
 @dataclass
@@ -111,7 +154,7 @@ class LSystemRenderer:
         file_menu = tk.Menu(menubar)
 
         examples_menu = tk.Menu(file_menu)
-        for example in EXAMPLES:
+        for example in EXAMPLES_MAP.values():
             lsystem, lsystem_config = example
             print(f"Registering L-System({lsystem.name()}) with turtle configuration: {lsystem_config}")
             examples_menu.add_command(label=lsystem.name(), command=partial(self.set_system, lsystem, lsystem_config))
@@ -127,6 +170,11 @@ class LSystemRenderer:
 
     def settings_modal(self) -> None:
         """Initialize a pop-up modal to mutate global and turtle settings."""
+
+        # NOTE: Overall this modal implementation is poor.
+        #       Get it to work, then polish.
+        #       Have `TurtleConfiguration` extend `tk.Variable` to set/get related vars
+
         modal = tk.Toplevel(self._root, width=DEFAULT_SETTINGS_WIDTH, height=DEFAULT_SETTINGS_HEIGHT)
         modal.title("Settings")
 
@@ -176,49 +224,75 @@ class LSystemRenderer:
             except tk.TclError as ex:
                 print(f"Unable to update turtle configuration: {ex}")
 
-        save_button = tk.Button(modal, text="Save", command=_set_turtle_conf)
-        save_button.grid(row=0, column=1, padx=STATIC_PADDING, pady=STATIC_PADDING, sticky=tk.E)
+        apply_button = tk.Button(modal, text="Apply", command=_set_turtle_conf)
+        apply_button.grid(row=0, column=1, padx=STATIC_PADDING, pady=STATIC_PADDING, sticky=tk.E)
+        separator = ttk.Separator(modal, orient=tk.HORIZONTAL)
+        separator.grid(row=1, columnspan=2, padx=STATIC_PADDING, pady=STATIC_PADDING, sticky=tk.EW)
+
+        # Combobox L-system defaults selector
+        l_system_name_var = tk.StringVar(modal, value=self.lsystem.name(), name="l_system_name")
+
+        def _set_combobox(_: tk.Event) -> None:
+            try:
+                selected_name = l_system_name_var.get()
+                new_lsys, new_lsys_conf = EXAMPLES_MAP.get(selected_name)
+                # Set all turtle conf vars
+                forward_step_var.set(new_lsys_conf.forward_step)
+                angle_var.set(new_lsys_conf.angle)
+                initial_heading_angle_var.set(new_lsys_conf.initial_heading_angle)
+                speed_var.set(new_lsys_conf.speed)
+                fg_color_var.set(json.dumps(new_lsys_conf.fg_color))
+                bg_color_var.set(json.dumps(new_lsys_conf.bg_color))
+                turtle_move_map_var.set(json.dumps(new_lsys_conf.turtle_move_mapper))
+                self.set_system(new_lsys, new_lsys_conf)
+            except (tk.TclError, KeyError) as ex:
+                print(f"Unable select pre-existing configuration: {ex}")
+
+        combobox = ttk.Combobox(modal, values=list(EXAMPLES_MAP), textvariable=l_system_name_var)
+        combobox.set(self.lsystem.name())
+        combobox.bind("<<ComboboxSelected>>", _set_combobox)
+        combobox.grid(row=2, columnspan=2, padx=STATIC_PADDING, pady=STATIC_PADDING, sticky=tk.EW)
 
         forward_step_label = tk.Label(modal, text="Forward Step (int):")
-        forward_step_label.grid(row=1, column=0, padx=STATIC_PADDING, pady=STATIC_PADDING, sticky=tk.W)
+        forward_step_label.grid(row=3, column=0, padx=STATIC_PADDING, pady=STATIC_PADDING, sticky=tk.W)
         forward_step_entry = tk.Entry(
             modal, textvariable=forward_step_var, validate="focusout", validatecommand=v_check_var
         )
-        forward_step_entry.grid(row=1, column=1, padx=STATIC_PADDING, pady=STATIC_PADDING, sticky=tk.E)
+        forward_step_entry.grid(row=3, column=1, padx=STATIC_PADDING, pady=STATIC_PADDING, sticky=tk.E)
 
         angle_label = tk.Label(modal, text="Angle (float):")
-        angle_label.grid(row=2, column=0, padx=STATIC_PADDING, pady=STATIC_PADDING, sticky=tk.W)
+        angle_label.grid(row=4, column=0, padx=STATIC_PADDING, pady=STATIC_PADDING, sticky=tk.W)
         angle_entry = tk.Entry(modal, textvariable=angle_var, validate="focusout", validatecommand=v_check_var)
-        angle_entry.grid(row=2, column=1, padx=STATIC_PADDING, pady=STATIC_PADDING, sticky=tk.E)
+        angle_entry.grid(row=4, column=1, padx=STATIC_PADDING, pady=STATIC_PADDING, sticky=tk.E)
 
         initial_heading_angle_label = tk.Label(modal, text="Initial Heading Angle (int):")
-        initial_heading_angle_label.grid(row=3, column=0, padx=STATIC_PADDING, pady=STATIC_PADDING, sticky=tk.W)
+        initial_heading_angle_label.grid(row=5, column=0, padx=STATIC_PADDING, pady=STATIC_PADDING, sticky=tk.W)
         initial_heading_angle_entry = tk.Entry(
             modal, textvariable=initial_heading_angle_var, validate="focusout", validatecommand=v_check_var
         )
-        initial_heading_angle_entry.grid(row=3, column=1, padx=STATIC_PADDING, pady=STATIC_PADDING, sticky=tk.E)
+        initial_heading_angle_entry.grid(row=5, column=1, padx=STATIC_PADDING, pady=STATIC_PADDING, sticky=tk.E)
 
         speed_label = tk.Label(modal, text="Speed (int):")
-        speed_label.grid(row=4, column=0, padx=STATIC_PADDING, pady=STATIC_PADDING, sticky=tk.W)
+        speed_label.grid(row=6, column=0, padx=STATIC_PADDING, pady=STATIC_PADDING, sticky=tk.W)
         speed_entry = tk.Entry(modal, textvariable=speed_var, validate="focusout", validatecommand=v_check_var)
-        speed_entry.grid(row=4, column=1, padx=STATIC_PADDING, pady=STATIC_PADDING, sticky=tk.E)
+        speed_entry.grid(row=6, column=1, padx=STATIC_PADDING, pady=STATIC_PADDING, sticky=tk.E)
 
         fg_color_label = tk.Label(modal, text="Foreground color (R,G,B):")
-        fg_color_label.grid(row=5, column=0, padx=STATIC_PADDING, pady=STATIC_PADDING, sticky=tk.W)
+        fg_color_label.grid(row=7, column=0, padx=STATIC_PADDING, pady=STATIC_PADDING, sticky=tk.W)
         fg_color_entry = tk.Entry(modal, textvariable=fg_color_var, validate="focusout", validatecommand=v_check_var)
-        fg_color_entry.grid(row=5, column=1, padx=STATIC_PADDING, pady=STATIC_PADDING, sticky=tk.E)
+        fg_color_entry.grid(row=7, column=1, padx=STATIC_PADDING, pady=STATIC_PADDING, sticky=tk.E)
 
         bg_color_label = tk.Label(modal, text="Background color (R,G,B):")
-        bg_color_label.grid(row=6, column=0, padx=STATIC_PADDING, pady=STATIC_PADDING, sticky=tk.W)
+        bg_color_label.grid(row=8, column=0, padx=STATIC_PADDING, pady=STATIC_PADDING, sticky=tk.W)
         bg_color_entry = tk.Entry(modal, textvariable=bg_color_var, validate="focusout", validatecommand=v_check_var)
-        bg_color_entry.grid(row=6, column=1, padx=STATIC_PADDING, pady=STATIC_PADDING, sticky=tk.E)
+        bg_color_entry.grid(row=8, column=1, padx=STATIC_PADDING, pady=STATIC_PADDING, sticky=tk.E)
 
         turtle_move_mapper_label = tk.Label(modal, text="Turtle move mapper (Dict[str, str]):")
-        turtle_move_mapper_label.grid(row=7, column=0, padx=STATIC_PADDING, pady=STATIC_PADDING, sticky=tk.W)
+        turtle_move_mapper_label.grid(row=9, column=0, padx=STATIC_PADDING, pady=STATIC_PADDING, sticky=tk.W)
         turtle_move_mapper_entry = tk.Entry(
             modal, textvariable=turtle_move_map_var, validate="focusout", validatecommand=v_check_var
         )
-        turtle_move_mapper_entry.grid(row=7, column=1, padx=STATIC_PADDING, pady=STATIC_PADDING, sticky=tk.E)
+        turtle_move_mapper_entry.grid(row=9, column=1, padx=STATIC_PADDING, pady=STATIC_PADDING, sticky=tk.E)
 
         modal.grab_set()
 
