@@ -10,7 +10,8 @@ for rendering the L-Systems.
 | :--: | :--: |
 | ![treea](figures/treea.gif) | ![treec](figures/treec.gif) |
 | ![treed](figures/treed.gif)  |  ![treef](figures/treef.gif) |
-| ![examples](figures/example_selection.gif) | |
+
+![settings](figures/settings_panel.gif)
 
 ## What is an L-System?
 

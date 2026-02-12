@@ -151,8 +151,7 @@ class LSystemRenderer(tk.Tk):
         file_menu = tk.Menu(menubar)
 
         examples_menu = tk.Menu(file_menu)
-        for example in EXAMPLES_MAP.values():
-            lsystem, lsystem_config = example
+        for lsystem, lsystem_config in EXAMPLES_MAP.values():
             print(f"Registering L-System({lsystem.name()}) with turtle configuration: {lsystem_config}")
             examples_menu.add_command(label=lsystem.name(), command=partial(self.set_system, lsystem, lsystem_config))
 
