@@ -106,9 +106,6 @@ class GlobalSettings:
 DEFAULT_ROOT_WIDTH = 400
 DEFAULT_ROOT_HEIGHT = 400
 
-DEFAULT_SETTINGS_WIDTH = 150
-DEFAULT_SETTINGS_HEIGHT = 150
-
 STATIC_PADDING = 5
 
 
@@ -173,20 +170,20 @@ class LSystemRenderer(tk.Tk):
 
         # NOTE: Overall this modal implementation is poor.
         #       Get it to work, then polish.
-        #       Have `TurtleConfiguration` extend `tk.Variable` to set/get related vars
+        #       Have `TurtleConfiguration` extend `tk.Variable` to set/get related vars.
 
-        modal = tk.Toplevel(self, width=DEFAULT_SETTINGS_WIDTH, height=DEFAULT_SETTINGS_HEIGHT)
+        modal = tk.Toplevel(self)
         modal.title("Settings")
 
         # Define a `TurtleConfiguration` callback
         animate_var = tk.BooleanVar(modal, value=self.global_settings.animate, name="animate")
 
-        def set_animate() -> None:
+        def _set_animate() -> None:
             self.global_settings.animate = animate_var.get()
             self.draw()
 
         animate_checkbox = tk.Checkbutton(
-            modal, text="Animate", command=set_animate, variable=animate_var, onvalue=True, offvalue=False
+            modal, text="Animate", command=_set_animate, variable=animate_var, onvalue=True, offvalue=False
         )
         animate_checkbox.grid(row=0, column=0, padx=STATIC_PADDING, pady=STATIC_PADDING, sticky=tk.W)
 
@@ -234,9 +231,10 @@ class LSystemRenderer(tk.Tk):
 
         def _set_combobox(_: tk.Event) -> None:
             try:
+                # Select L-system by name
                 selected_name = l_system_name_var.get()
                 new_lsys, new_lsys_conf = EXAMPLES_MAP.get(selected_name)
-                # Set all turtle conf vars
+                # Set all turtle configuration modal closure vars
                 forward_step_var.set(new_lsys_conf.forward_step)
                 angle_var.set(new_lsys_conf.angle)
                 initial_heading_angle_var.set(new_lsys_conf.initial_heading_angle)
@@ -299,7 +297,7 @@ class LSystemRenderer(tk.Tk):
     def set_system(self, l_system: Lsystem, turtle_config: TurtleConfiguration) -> None:
         """
         Update L-System state and rerender turtle with new configuration.
-        Mutates private `self._turtle: LSystemTurtle`.
+        Mutates private `self._screen: TurtleScreen` and re-assigns `self._turtle: LSystemTurtle`.
 
         Args:
             l_system: Concrete L-System to render.
