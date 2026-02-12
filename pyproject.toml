@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "l-system"
-version = "0.2.0"
+version = "0.3.0"
 description = "An Lindenmayer's L-system implementation for educational purposes."
 authors = ["Evan Stromatias <evangelos.stromatias@gmail.com>"]
 maintainers = ["Evan Stromatias <evangelos.stromatias@gmail.com>"]
