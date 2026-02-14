@@ -1,5 +1,24 @@
+"""Base classes to define an L-System.
+
+A DOL-System is composed of:
+    - alphabet (A): a set of symbols.
+    - productions (P): a set of (predecessor (n) -> successor (w)) pairs. Where,
+        - n is a character from the alphabet;
+        - w is any string composed of the alphabet and/or turtle operation symbols.
+    - axiom (L): Initial value of iter0. Must be a _predecessor_ in the set of productions.
+
+Simple parameteric models:
+    - Pseudo-random alphabet
+    - Geometric
+    - Cyclindrical (wrapped planar geometry)
+    - Polygons
+    - Timed DOL (tDOL) where each projection may related to a monotonic time.
+
+See https://en.wikipedia.org/wiki/L-system#Generalized_Inference_Algorithms for generalized approaches.
+"""
+
 from abc import ABC, abstractmethod
-from typing import Iterable
+from typing import Dict, Iterable
 
 import tqdm
 
@@ -40,25 +59,6 @@ class Lsystem(ABC):
         alphabet_set = set(self.alphabet)
         production_rules_set = set("".join(self.productions.values()))
         return "".join(production_rules_set.symmetric_difference(alphabet_set))
-
-    @property
-    @abstractmethod
-    def axiom(self) -> str:
-        """
-        Returns:
-            The axiom is an initial state (string) of the L-System on which productions are applied iteratively.
-        """
-
-    @property
-    @abstractmethod
-    def productions(self) -> dict[str, str]:
-        """
-        Productions (rules) that expand each symbol into some larger string of symbols.
-
-        Returns:
-            A dictionary of the production rules where keys are the symbols to be changed and their values are the
-                values that will be replaced with.
-        """
 
     @property
     def recursions(self) -> int:
@@ -110,3 +110,22 @@ class Lsystem(ABC):
     @classmethod
     def name(cls) -> str:
         return cls.__name__
+
+    @property
+    @abstractmethod
+    def axiom(self) -> str:
+        """
+        Returns:
+            The axiom is an initial state (string) of the L-System on which productions are applied iteratively.
+        """
+
+    @property
+    @abstractmethod
+    def productions(self) -> Dict[str, str]:
+        """
+        Productions (rules) that expand each symbol into some larger string of symbols.
+
+        Returns:
+            A dictionary of the production rules where keys are the symbols to be changed and their values are the
+                values that will be replaced with.
+        """

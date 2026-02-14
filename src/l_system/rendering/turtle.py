@@ -29,6 +29,31 @@ TODO:
 
 import turtle
 from dataclasses import astuple, dataclass, field
+from enum import StrEnum
+from typing import Callable, Dict
+
+
+class OperatorSymbols(StrEnum):
+    """Set of Turtle operator symbols."""
+
+    F = "F"
+    """Move forward by line length drawing a line.
+    """
+    f = "f"
+    """Move forward by line length without drawing a line.
+    """
+    LEFT = "+"
+    """Turn left by turning angle.
+    """
+    RIGHT = "-"
+    """Turn right by turning angle.
+    """
+    PUSH = "["
+    """Push current drawing state onto stack.
+    """
+    POP = "]"
+    """Pop current drawing state from the stack.
+    """
 
 
 @dataclass
@@ -102,13 +127,13 @@ class LSystemTurtle(turtle.RawTurtle):
         self.reset()
 
         # all the available turtle moves are stored here.
-        self._lsystem2turtle_map = {
-            'F': self.forward,
-            'f': self.up_forward,
-            '+': self.left,
-            '-': self.right,
-            '[': self.push_turtle_state,
-            ']': self.pop_turtle_state,
+        self._lsystem2turtle_map: Dict[str, Callable[[LSystemTurtle], None]] = {
+            OperatorSymbols.F: self.forward,
+            OperatorSymbols.f: self.up_forward,
+            OperatorSymbols.LEFT: self.left,
+            OperatorSymbols.RIGHT: self.right,
+            OperatorSymbols.PUSH: self.push_turtle_state,
+            OperatorSymbols.POP: self.pop_turtle_state,
         }
 
     def reset(self) -> None:

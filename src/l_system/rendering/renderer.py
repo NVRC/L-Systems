@@ -14,6 +14,7 @@ from examples import (
     bracketed_ol_system_fig1_24c,
     bracketed_ol_system_fig1_24d,
     bracketed_ol_system_fig1_24f,
+    dense_fans,
     dragon_curve,
     hexagonal_gosper_curve,
     islands_and_lakes,
@@ -25,6 +26,7 @@ from examples import (
     koch_curves_fig1_9e,
     koch_curves_fig1_9f,
     koch_island,
+    pseudo_random,
     sierpinski_gask,
 )
 
@@ -34,6 +36,11 @@ from l_system.rendering.turtle import LSystemTurtle, TurtleConfiguration
 Example = Tuple[Lsystem, TurtleConfiguration]
 
 EXAMPLES_MAP: Dict[str, Example] = {
+    dense_fans.DenseFans.name(): (dense_fans.DenseFans(), dense_fans.DEFAULT_TURTLE_CONFIG),
+    pseudo_random.PseudoRandomAlphabet.name(): (
+        pseudo_random.PseudoRandomAlphabet(),
+        pseudo_random.DEFAULT_TURTLE_CONFIG,
+    ),
     dragon_curve.DragonCurve.name(): (dragon_curve.DragonCurve(), dragon_curve.DEFAULT_TURTLE_CONFIG),
     sierpinski_gask.SierpinskiGask.name(): (sierpinski_gask.SierpinskiGask(), sierpinski_gask.DEFAULT_TURTLE_CONFIG),
     koch_island.KochIsland.name(): (koch_island.KochIsland(), koch_island.DEFAULT_TURTLE_CONFIG),
